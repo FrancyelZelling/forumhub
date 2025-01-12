@@ -20,8 +20,8 @@ public class User implements UserDetails {
     private String email;
     @Column(name = "password_hashed")
     private String password;
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Topic> topics = new ArrayList<>();
+//    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Topic> topics = new ArrayList<>();
 
     public User(Long id, String username, String email, String password) {
         this.id = id;
@@ -104,11 +104,15 @@ public class User implements UserDetails {
         return result;
     }
 
-    public List<Topic> getTopics() {
-        return topics;
+    public String getName() {
+        return this.username;
     }
 
-    public void setTopics(List<Topic> topics) {
-        this.topics = topics;
-    }
+//    public List<Topic> getTopics() {
+//        return topics;
+//    }
+//
+//    public void setTopics(List<Topic> topics) {
+//        this.topics = topics;
+//    }
 }

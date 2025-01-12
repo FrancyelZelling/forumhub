@@ -1,0 +1,1 @@
+alter table topics modify topic_status VARCHAR(25) not null default "NOT_ANSWERED";
