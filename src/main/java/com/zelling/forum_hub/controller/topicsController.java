@@ -57,5 +57,12 @@ public class topicsController {
     
         return ResponseEntity.ok(new TopicDetailDTO(updateTopic));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity updateTopic(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+        service.deleteTopic(id, token);
+    
+        return ResponseEntity.ok().build();
+    }
     
 }

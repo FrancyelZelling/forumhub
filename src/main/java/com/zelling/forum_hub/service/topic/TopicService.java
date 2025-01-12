@@ -53,6 +53,16 @@ public class TopicService {
     return topicRepository.save(newTopic);
   }
 
+  public void deleteTopic(Long id, String token) {
+    var topic = topicRepository.findById(id);
+    if(topic.isEmpty()) throw new RuntimeException("topic not found");
+
+    var user = findUser(token);
+    if (topic.get().getAuthor().getUsername() != user.getUsername()) throw new RuntimeException("only the author can delete the topic");
+
+    topicRepository.delete(topic.get());
+  }
+
   private User findUser(String token){
     var email = tokenService.validateToken(token.replace("Bearer ", ""));
     System.out.println("email=" + token);
