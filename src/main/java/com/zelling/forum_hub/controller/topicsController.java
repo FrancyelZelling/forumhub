@@ -14,6 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 
 @RestController
@@ -45,6 +49,13 @@ public class topicsController {
 
         // var uri = uriBuilder.path("/topics/{id}").buildAndExpand(topic.getId()).toUri();
         return ResponseEntity.ok(new TopicResponseDTO(topic));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity updateTopic(@PathVariable Long id, @RequestBody @Valid TopicUpdateDTO data, @RequestHeader("Authorization") String token) {
+        var updateTopic = service.updateTopic(id, data, token);
+    
+        return ResponseEntity.ok(new TopicDetailDTO(updateTopic));
     }
     
 }
