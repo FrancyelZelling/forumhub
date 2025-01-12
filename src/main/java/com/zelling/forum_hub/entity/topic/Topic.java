@@ -4,15 +4,7 @@ import java.time.LocalDateTime;
 
 import com.zelling.forum_hub.entity.user.User;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity(name = "Topic")
 @Table(name = "topics")
@@ -23,13 +15,32 @@ public class Topic {
     private String title;
     @Column(name = "topic_message")
     private String message;
-    private LocalDateTime createdAt;
-    @ManyToOne
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User author;
     @Enumerated(EnumType.STRING)
     private TopicStatus status;
 
     Topic(){}
+
+    public Topic(String title, String message, LocalDateTime createdAt, User author, TopicStatus status) {
+        this.title = title;
+        this.message = message;
+        this.createdAt = createdAt;
+        this.author = author;
+        this.status = status;
+    }
+
+    public Topic(TopicNewDTO data, User author) {
+        this.title = data.title();
+        this.message = data.message();
+        this.createdAt = LocalDateTime.now();
+        this.author = author;
+        this.status = TopicStatus.NOT_ANSWERED;
+    }
+
 
     public Long getId() {
         return id;

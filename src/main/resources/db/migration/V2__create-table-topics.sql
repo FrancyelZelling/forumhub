@@ -4,7 +4,7 @@ CREATE TABLE topics(
     topic_message TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     topic_status VARCHAR(25) NOT NULL,
-    author BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
 
-    CONSTRAINT fk_author FOREIGN KEY (author) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id)
 );

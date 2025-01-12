@@ -1,10 +1,12 @@
 package com.zelling.forum_hub.entity.user;
 
+import com.zelling.forum_hub.entity.topic.Topic;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,6 +20,8 @@ public class User implements UserDetails {
     private String email;
     @Column(name = "password_hashed")
     private String password;
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Topic> topics = new ArrayList<>();
 
     public User(Long id, String username, String email, String password) {
         this.id = id;
@@ -98,5 +102,13 @@ public class User implements UserDetails {
         final Object $id = this.getId();
         result = result * PRIME + ($id == null ? 43 : $id.hashCode());
         return result;
+    }
+
+    public List<Topic> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(List<Topic> topics) {
+        this.topics = topics;
     }
 }
