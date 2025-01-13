@@ -1,8 +1,13 @@
 package com.zelling.forum_hub.service.topic;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.zelling.forum_hub.entity.answer.Answer;
+import com.zelling.forum_hub.entity.answer.AnswerCreateDTO;
+import com.zelling.forum_hub.entity.answer.AnswerRepository;
 import com.zelling.forum_hub.entity.topic.Topic;
 import com.zelling.forum_hub.entity.topic.TopicNewDTO;
 import com.zelling.forum_hub.entity.topic.TopicRepository;
@@ -26,10 +31,13 @@ public class TopicService {
   @Autowired
   private TokenService tokenService;
 
+  @Autowired 
+  AnswerRepository answerRepository;
+
   @Transactional
   public Topic createTopic(TopicNewDTO data, String token){
     var user = findUser(token);
-    Topic topic = new Topic(data,user));
+    Topic topic = new Topic(data,user);
     topic.setStatus(TopicStatus.NOT_ANSWERED);
 
     System.out.println("------------- author " + topic.getAuthor());
@@ -72,4 +80,17 @@ public class TopicService {
     }
     return user.get();
   }
+
+@Transactional
+public Answer addNewAnswer(Long TopicID, AnswerCreateDTO data, String token) {
+    var topic = topicRepository.findById(TopicID);
+    if (topic.isEmpty()) throw new RuntimeException("topic not found");
+
+    var user = findUser(token);
+    Answer answer = new Answer(data.message(), LocalDateTime.now(), topic.get(), user);
+
+    answerRepository.save(answer);
+
+    return answer;
+}
 }

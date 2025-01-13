@@ -1,5 +1,7 @@
 package com.zelling.forum_hub.controller;
 
+import com.zelling.forum_hub.entity.answer.AnswerCreateDTO;
+import com.zelling.forum_hub.entity.answer.AnswerDetailDTO;
 import com.zelling.forum_hub.entity.topic.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriBuilder;
@@ -13,6 +15,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -64,5 +67,12 @@ public class topicsController {
     
         return ResponseEntity.ok().build();
     }
+
+    // @PostMapping("/{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity addAnswer(@PathVariable Long id, @RequestBody @Valid AnswerCreateDTO data, @RequestHeader("Authorization") String token) {
+        var answer = service.addNewAnswer(id, data, token);
     
+        return ResponseEntity.ok(new AnswerDetailDTO(answer));
+    }
 }

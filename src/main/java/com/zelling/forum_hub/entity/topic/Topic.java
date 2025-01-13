@@ -1,7 +1,10 @@
 package com.zelling.forum_hub.entity.topic;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.zelling.forum_hub.entity.answer.Answer;
 import com.zelling.forum_hub.entity.user.User;
 
 import jakarta.persistence.*;
@@ -22,6 +25,9 @@ public class Topic {
     private User author;
     @Enumerated(EnumType.STRING)
     private TopicStatus status;
+
+    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Answer> answers = new ArrayList<>();
 
     Topic(){}
 
@@ -77,5 +83,15 @@ public class Topic {
     }
     public void setStatus(TopicStatus status) {
         this.status = status;
+    }
+
+    public List<Answer> addAnswer(Answer answer){
+        this.answers.add(answer);
+        return this.answers;
+    }
+
+
+    public List<Answer> getAnswers(){
+        return this.answers;
     }
 }
