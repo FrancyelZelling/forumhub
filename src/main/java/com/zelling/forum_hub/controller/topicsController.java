@@ -67,12 +67,4 @@ public class topicsController {
     
         return ResponseEntity.ok().build();
     }
-
-    // @PostMapping("/{id}")
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity addAnswer(@PathVariable Long id, @RequestBody @Valid AnswerCreateDTO data, @RequestHeader("Authorization") String token) {
-        var answer = service.addNewAnswer(id, data, token);
-    
-        return ResponseEntity.ok(new AnswerDetailDTO(answer));
-    }
 }
