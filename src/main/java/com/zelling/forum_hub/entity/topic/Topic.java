@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.zelling.forum_hub.entity.answer.Answer;
+import com.zelling.forum_hub.entity.course.Course;
 import com.zelling.forum_hub.entity.user.User;
 
 import jakarta.persistence.*;
@@ -28,6 +29,10 @@ public class Topic {
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Answer> answers = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
 
     Topic(){}
 
@@ -94,4 +99,13 @@ public class Topic {
     public List<Answer> getAnswers(){
         return this.answers;
     }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
 }

@@ -11,6 +11,7 @@ import com.zelling.forum_hub.entity.topic.TopicNewDTO;
 import com.zelling.forum_hub.entity.topic.TopicRepository;
 import com.zelling.forum_hub.entity.topic.TopicStatus;
 import com.zelling.forum_hub.entity.topic.TopicUpdateDTO;
+import com.zelling.forum_hub.service.course.CourseService;
 import com.zelling.forum_hub.service.user.UserService;
 
 import jakarta.transaction.Transactional;
@@ -26,6 +27,9 @@ public class TopicService {
 
   @Autowired 
   AnswerRepository answerRepository;
+
+  @Autowired
+  private CourseService courseService;
 
   @Transactional
   public Topic createTopic(TopicNewDTO data, String token){
@@ -50,6 +54,7 @@ public class TopicService {
     if(data.title() != null) newTopic.setTitle(data.title());
     if(data.message() != null) newTopic.setMessage(data.message());
     if(data.status() != null) newTopic.setStatus(data.status());
+    if(data.courseId() != null) newTopic.setCourse(courseService.getCourse(data.courseId()));
 
     return topicRepository.save(newTopic);
   }

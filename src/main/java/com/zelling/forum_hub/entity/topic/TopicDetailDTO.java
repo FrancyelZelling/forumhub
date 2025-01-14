@@ -12,10 +12,11 @@ public record TopicDetailDTO (
         String message,
         TopicStatus status,
         String author,
+        String course,
         List<AnswerDetailDTO> answers
 ){
     public TopicDetailDTO (Topic topic){
-        this(topic.getId(),topic.getTitle(), topic.getMessage(), topic.getStatus(),topic.getAuthor().getName(),
+        this(topic.getId(),topic.getTitle(), topic.getMessage(), topic.getStatus(),topic.getAuthor().getName(),topic.getCourse().getName(),
         topic.getAnswers().stream().map(AnswerDetailDTO::new).collect(Collectors.toList())
         );
     }
